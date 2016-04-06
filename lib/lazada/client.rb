@@ -18,12 +18,12 @@ module Lazada
       timestamp = Time.now.in_time_zone(current_time_zone).iso8601
 
       parameters = {
-        'Action': action,
-        'Filter': 'all',
-        'Format': 'JSON',
-        'Timestamp': timestamp,
-        'UserID': 'sotra@yoolk.com',
-        'Version': '1.0'
+        'Action' => action,
+        'Filter' => 'all',
+        'Format' => 'JSON',
+        'Timestamp' => timestamp,
+        'UserID' => 'sotra@yoolk.com',
+        'Version' => '1.0'
       }
       parameters = parameters.merge(options) if options.present?
 
@@ -52,7 +52,7 @@ module Lazada
     def update_product(params)
       url = request_url('ProductUpdate')
 
-      params = { 'Product': params }
+      params = { 'Product' => params }
       response = self.class.post(url, body: params.to_xml(root: 'Request', skip_types: true))
 
       response
@@ -61,14 +61,14 @@ module Lazada
     def remove_product(seller_sku)
       url = request_url('ProductRemove')
 
-      params = { 'Product': { 'SellerSku': seller_sku } }
+      params = { 'Product' => { 'SellerSku' => seller_sku } }
       response = self.class.post(url, body: params.to_xml(root: 'Request', skip_types: true))
 
       response
     end
 
     def feed_status(id)
-      url = request_url('FeedStatus', { 'FeedID': id })
+      url = request_url('FeedStatus', { 'FeedID' => id })
       response = self.class.get(url)
 
       response
