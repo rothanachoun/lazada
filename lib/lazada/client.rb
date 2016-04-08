@@ -5,6 +5,7 @@ require 'lazada/api/product'
 require 'lazada/api/category'
 require 'lazada/api/feed'
 
+## Development mode only
 OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
 module Lazada
@@ -16,8 +17,9 @@ module Lazada
 
     base_uri 'sellercenter-api.lazada.com.my'
 
-    def initialize(api_key)
-      @api_key = '3cbada57d0d3d41d5823b892efd53b60e8425b27'
+    def initialize(api_key, user_id)
+      @api_key = api_key
+      @user_id = user_id
     end
 
     protected
@@ -31,7 +33,7 @@ module Lazada
         'Filter' => 'all',
         'Format' => 'JSON',
         'Timestamp' => timestamp,
-        'UserID' => 'sotra@yoolk.com',
+        'UserID' => @user_id,
         'Version' => '1.0'
       }
       parameters = parameters.merge(options) if options.present?
