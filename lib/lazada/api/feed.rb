@@ -7,6 +7,13 @@ module Lazada
 
         response
       end
+
+      def feed_list
+        url = request_url('FeedList')
+        response = self.class.get(url)
+
+        response
+      end
     end
   end
 end
