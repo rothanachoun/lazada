@@ -8,7 +8,7 @@ module Lazada
         response['SuccessResponse']['Body']['Products']['Product'] if response['SuccessResponse'].present?
       end
 
-      def post_product(params)
+      def create_product(params)
         url = request_url('ProductCreate')
 
         params = { 'Product' => params }
