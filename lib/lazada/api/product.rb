@@ -1,8 +1,8 @@
 module Lazada
   module API
     module Product
-      def get_products
-        url = request_url('GetProducts')
+      def get_products(status = 'all')
+        url = request_url('GetProducts', { 'filter' => status })
         response = self.class.get(url)
 
         response['SuccessResponse']['Body']['Products']['Product'] if response['SuccessResponse'].present?

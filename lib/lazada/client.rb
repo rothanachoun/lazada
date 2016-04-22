@@ -32,12 +32,13 @@ module Lazada
 
       parameters = {
         'Action' => action,
-        'Filter' => 'all',
+        'Filter' => options.delete('filter'),
         'Format' => 'JSON',
         'Timestamp' => timestamp,
         'UserID' => @user_id,
         'Version' => '1.0'
       }
+
       parameters = parameters.merge(options) if options.present?
 
       parameters = Hash[parameters.sort{ |a, b| a[0] <=> b[0] }]
