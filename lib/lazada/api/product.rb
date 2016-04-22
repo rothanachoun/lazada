@@ -11,7 +11,6 @@ module Lazada
       def create_product(params)
         url = request_url('ProductCreate')
 
-        params = { 'Product' => params }
         response = self.class.post(url, body: params.to_xml(root: 'Request', skip_types: true))
 
         response
@@ -20,7 +19,6 @@ module Lazada
       def update_product(params)
         url = request_url('ProductUpdate')
 
-        params = { 'Product' => params }
         response = self.class.post(url, body: params.to_xml(root: 'Request', skip_types: true))
 
         response
