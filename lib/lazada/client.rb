@@ -4,6 +4,7 @@ require 'active_support/core_ext/hash'
 require 'lazada/api/product'
 require 'lazada/api/category'
 require 'lazada/api/feed'
+require 'lazada/api/image'
 
 ## Development mode only
 OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
@@ -14,6 +15,7 @@ module Lazada
     include Lazada::API::Product
     include Lazada::API::Category
     include Lazada::API::Feed
+    include Lazada::API::Image
 
     base_uri 'sellercenter-api.lazada.com.my'
 
