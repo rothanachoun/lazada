@@ -1,9 +1,13 @@
 module Lazada
   module API
     module Order
-      def get_orders(status = nil)
+      def get_orders(options = {})
         url = request_url('GetOrders')
-        url = request_url('GetOrders', 'Status' => status) if status.present?
+        params = {}
+        params['Status'] = options[:status] if options[:status].present?
+        params['CreatedAfter'] = options[:created_after] if options[:created_after]
+
+        url = request_url('GetOrders', params) if params.present?
         response = self.class.get(url)
 
         return response['SuccessResponse']['Body']['Orders']['Order'] if response['SuccessResponse'].present?
