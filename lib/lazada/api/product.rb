@@ -6,6 +6,7 @@ module Lazada
         response = self.class.get(url).to_json
         response = JSON.parse(JSON[response], symbolize_names: true)
 
+        return 'nil' if response.dig(:SuccessResponse, :Body, :Products).nil?
         return response[:SuccessResponse][:Body][:Products] if response.dig(:SuccessResponse, :Body, :Products).empty?
         return response[:SuccessResponse][:Body][:Products][:Product] if response.dig(:SuccessResponse, :Body, :Products, :Product)
         response
