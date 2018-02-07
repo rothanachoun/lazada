@@ -8,9 +8,6 @@ require 'lazada/api/feed'
 require 'lazada/api/image'
 require 'lazada/api/order'
 
-## Development mode only
-OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
-
 module Lazada
   class Client
     include HTTParty
