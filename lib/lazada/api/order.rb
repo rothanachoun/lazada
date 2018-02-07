@@ -9,8 +9,12 @@ module Lazada
 
         url = request_url('GetOrders', params) if !params.nil?
         response = self.class.get(url).to_json
-        response = JSON.parse(response, symbolize_names: true)
-  
+        if ENV['RAILS_ENV'].nil?
+          response = JSON.parse(JSON[response], symbolize_names: true)
+        else
+          response = JSON.parse(response, symbolize_names: true)
+        end
+ 
         # response[:SuccessResponse][:Body][:Orders] = [] # no [:Order] 
         return response[:SuccessResponse][:Body][:Orders] if response.dig(:SuccessResponse, :Body, :Orders).empty?
         return response[:SuccessResponse][:Body][:Orders][:Order] if response.dig(:SuccessResponse, :Body, :Orders, :Order)
@@ -20,7 +24,11 @@ module Lazada
       def get_order(id)
         url = request_url('GetOrder', { 'OrderId' => id })
         response = self.class.get(url).to_json
-        response = JSON.parse(response, symbolize_names: true)
+        if ENV['RAILS_ENV'].nil?
+          response = JSON.parse(JSON[response], symbolize_names: true)
+        else
+          response = JSON.parse(response, symbolize_names: true)
+        end
 
         return response[:SuccessResponse][:Body][:Orders] if response.dig(:SuccessResponse, :Body, :Orders)
         response
@@ -29,7 +37,11 @@ module Lazada
       def get_order_items(id)
         url = request_url('GetOrderItems', { 'OrderId' => id })
         response = self.class.get(url).to_json
-        response = JSON.parse(response, symbolize_names: true)
+        if ENV['RAILS_ENV'].nil?
+          response = JSON.parse(JSON[response], symbolize_names: true)
+        else
+          response = JSON.parse(response, symbolize_names: true)
+        end
 
         return response[:SuccessResponse][:Body][:OrderItems] if response.dig(:SuccessResponse, :Body, :Orders)
         response
