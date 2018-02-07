@@ -1,5 +1,6 @@
 require 'httparty'
 require 'active_support/core_ext/hash'
+require 'addressable/uri'
 
 require 'lazada/api/product'
 require 'lazada/api/category'
@@ -41,13 +42,16 @@ module Lazada
         'Version' => '1.0'
       }
 
+      parameters['Filter'] = '' if parameters['Filter'].nil?
+
       parameters = parameters.merge(options) if options.present?
-
       parameters = Hash[parameters.sort{ |a, b| a[0] <=> b[0] }]
-      params     = parameters.to_query
 
-      signature = OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha256'), @api_key, params)
-      url = "/?#{params}&Signature=#{signature}"
+      uri = Addressable::URI.new
+      uri.query_values = parameters
+
+      signature = OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha256'), @api_key, uri.query)
+      url = "/?#{uri.query}&Signature=#{signature}"
     end
 
   end
