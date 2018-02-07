@@ -23,9 +23,22 @@ Or install it yourself as:
 The client is the base for all communication with the API.
 
 ```ruby
-client = Lazada::Client.new(api_key, user_id)
+client = Lazada::Client.new(api_key, user_id, country)
 ```
 
+For the last argument (country), this library supports all of Lazada's API endpoint.
+Malaysia - 'my'
+Singapore - 'sg'
+Indonesia - 'id'
+Vietnam - 'vn'
+Phillipines - 'ph'
+Thailand - 'th'
+
+If you want to select Malaysia for example: the client initialization part will be like this:
+
+```ruby
+client = Lazada::Client.new(api_key, user_id, 'my')
+```
 ## Lazada::Client methods
 ### Lazada::Client#get_products
 Get all or a range of products.
@@ -96,6 +109,7 @@ Returns detailed information about a specified feed.
 client.feed_status(feed_id)
 ```
 
+### * DEPRECATED *
 ### Lazada::Client#feed_list
 Returns all feeds created in the last 30 days.
 ```ruby
