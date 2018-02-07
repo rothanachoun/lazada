@@ -4,7 +4,7 @@ module Lazada
       def get_products(status = 'all')
         url = request_url('GetProducts', { 'filter' => status })
         response = self.class.get(url).to_json
-        response = JSON.parse(JSON[response], symbolize_names: true)
+        response = JSON.parse(response, symbolize_names: true)
 
         return 'nil' if response.dig(:SuccessResponse, :Body, :Products).nil?
         return response[:SuccessResponse][:Body][:Products] if response.dig(:SuccessResponse, :Body, :Products).empty?

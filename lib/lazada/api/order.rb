@@ -9,7 +9,7 @@ module Lazada
 
         url = request_url('GetOrders', params) if !params.nil?
         response = self.class.get(url).to_json
-        response = JSON.parse(JSON[response], symbolize_names: true)
+        response = JSON.parse(response, symbolize_names: true)
   
         # response[:SuccessResponse][:Body][:Orders] = [] # no [:Order] 
         return response[:SuccessResponse][:Body][:Orders] if response.dig(:SuccessResponse, :Body, :Orders).empty?
@@ -20,7 +20,7 @@ module Lazada
       def get_order(id)
         url = request_url('GetOrder', { 'OrderId' => id })
         response = self.class.get(url).to_json
-        response = JSON.parse(JSON[response], symbolize_names: true)
+        response = JSON.parse(response, symbolize_names: true)
 
         return response[:SuccessResponse][:Body][:Orders] if response.dig(:SuccessResponse, :Body, :Orders)
         response
@@ -29,7 +29,7 @@ module Lazada
       def get_order_items(id)
         url = request_url('GetOrderItems', { 'OrderId' => id })
         response = self.class.get(url).to_json
-        response = JSON.parse(JSON[response], symbolize_names: true)
+        response = JSON.parse(response, symbolize_names: true)
 
         return response[:SuccessResponse][:Body][:OrderItems] if response.dig(:SuccessResponse, :Body, :Orders)
         response
