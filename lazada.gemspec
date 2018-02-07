@@ -7,11 +7,11 @@ Gem::Specification.new do |spec|
   spec.name          = "lazada"
   spec.version       = Lazada::VERSION
   spec.authors       = ["Rothana Choun"]
-  spec.email         = ["rothana.choun7@gmail.com"]
+  spec.email         = ["rothana@yoolk.com"]
 
   spec.summary       = %q{A ruby wrapper for the Lazada API.}
   spec.description   = %q{A ruby wrapper for the Lazada API.}
-  spec.homepage      = "https://github.com/rothanachoun/lazada"
+  spec.homepage      = "https://github.com/yoolk/lazada"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "builder", '~> 3.1.4'
+  spec.add_dependency "builder", '~> 3.2'
   spec.add_dependency "httparty", "~> 0.13.7"
   spec.add_dependency "addressable", "~> 2.5.2"
 

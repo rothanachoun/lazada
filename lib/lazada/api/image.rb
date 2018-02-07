@@ -9,6 +9,15 @@ module Lazada
 
         response
       end
+
+      def migrate_image(image_url)
+        url = request_url('MigrateImage')
+
+        params = { 'Image' => { 'Url' => image_url } }
+        response = self.class.post(url, body: params.to_xml(root: 'Request', skip_types: true))
+
+        !response['SuccessResponse'].nil? ? response['SuccessResponse']['Body']['Image']['Url'] : ''
+      end
     end
   end
 end

@@ -5,6 +5,7 @@ require 'lazada/api/product'
 require 'lazada/api/category'
 require 'lazada/api/image'
 require 'lazada/api/order'
+require 'lazada/api/response'
 
 module Lazada
   class Client
@@ -23,17 +24,17 @@ module Lazada
     def select_country(country)
       case country
       when 'my' # malaysia
-        self.class.base_uri 'sellercenter-api.lazada.com.my'
+        self.class.base_uri 'api.sellercenter.lazada.com.my'
       when 'sg' # singapore
-        self.class.base_uri 'sellercenter-api.lazada.com.sg'
+        self.class.base_uri 'api.sellercenter.lazada.com.sg'
       when 'th' # thailand
-        self.class.base_uri 'sellercenter-api.lazada.co.th'
+        self.class.base_uri 'api.sellercenter.lazada.co.th'
       when 'id' # indonesia
-        self.class.base_uri 'sellercenter-api.lazada.co.id'
+        self.class.base_uri 'api.sellercenter.lazada.co.id'
       when 'vn' # vietnam
-        self.class.base_uri 'sellercenter-api.lazada.vn'
+        self.class.base_uri 'api.sellercenter.lazada.vn'
       when 'ph' # phillipines
-        self.class.base_uri 'sellercenter-api.lazada.com.ph'
+        self.class.base_uri 'api.sellercenter.lazada.com.ph'
       else
         raise RuntimeError, 'Lazada does not support your country at this moment.'
       end
