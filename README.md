@@ -27,12 +27,12 @@ client = Lazada::Client.new(api_key, user_id, country)
 ```
 
 For the last argument (country), this library supports all of Lazada's API endpoint.
-Malaysia - 'my'
-Singapore - 'sg'
-Indonesia - 'id'
-Vietnam - 'vn'
-Phillipines - 'ph'
-Thailand - 'th'
+* Malaysia - 'my'
+* Singapore - 'sg'
+* Indonesia - 'id'
+* Vietnam - 'vn'
+* Phillipines - 'ph'
+* Thailand - 'th'
 
 If you want to select Malaysia for example: the client initialization part will be like this:
 
