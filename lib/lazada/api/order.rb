@@ -8,9 +8,12 @@ module Lazada
         params['CreatedAfter'] = options[:created_after] if options[:created_after]
 
         url = request_url('GetOrders', params) if params.present?
-        response = self.class.get(url)
-
-        return response['SuccessResponse']['Body']['Orders']['Order'] if response['SuccessResponse'].present?
+        response = self.class.get(url).to_json
+        response = JSON.parse(JSON[response], symbolize_names: true)
+  
+        # response[:SuccessResponse][:Body][:Orders] = [] # no [:Order] 
+        return response[:SuccessResponse][:Body][:Orders] if response.dig(:SuccessResponse, :Body, :Orders).empty?
+        return response[:SuccessResponse][:Body][:Orders][:Order] if response.dig(:SuccessResponse, :Body, :Orders, :Order)
         response
       end
 

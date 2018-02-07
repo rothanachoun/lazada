@@ -1,10 +1,8 @@
 require 'httparty'
-require 'active_support/core_ext/hash'
 require 'addressable/uri'
 
 require 'lazada/api/product'
 require 'lazada/api/category'
-require 'lazada/api/feed'
 require 'lazada/api/image'
 require 'lazada/api/order'
 
@@ -13,7 +11,6 @@ module Lazada
     include HTTParty
     include Lazada::API::Product
     include Lazada::API::Category
-    include Lazada::API::Feed
     include Lazada::API::Image
     include Lazada::API::Order
 
@@ -27,8 +24,7 @@ module Lazada
     protected
 
     def request_url(action, options = {})
-      current_time_zone = 'Kuala Lumpur'
-      timestamp = Time.now.in_time_zone(current_time_zone).iso8601
+      timestamp = Time.now.iso8601
 
       parameters = {
         'Action' => action,
@@ -41,7 +37,7 @@ module Lazada
 
       parameters['Filter'] = '' if parameters['Filter'].nil?
 
-      parameters = parameters.merge(options) if options.present?
+      parameters = parameters.merge(options) if !options.empty?
       parameters = Hash[parameters.sort{ |a, b| a[0] <=> b[0] }]
 
       uri = Addressable::URI.new

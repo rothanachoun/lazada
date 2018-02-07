@@ -3,9 +3,12 @@ module Lazada
     module Product
       def get_products(status = 'all')
         url = request_url('GetProducts', { 'filter' => status })
-        response = self.class.get(url)
+        response = self.class.get(url).to_json
+        response = JSON.parse(JSON[response], symbolize_names: true)
 
-        response['SuccessResponse']['Body']['Products']['Product'] if response['SuccessResponse'].present?
+        return response[:SuccessResponse][:Body][:Products] if response.dig(:SuccessResponse, :Body, :Products).empty?
+        return response[:SuccessResponse][:Body][:Products][:Product] if response.dig(:SuccessResponse, :Body, :Products, :Product)
+        response
       end
 
       def create_product(params)
