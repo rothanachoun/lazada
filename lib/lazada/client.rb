@@ -1,36 +1,51 @@
 require 'httparty'
-require 'active_support/core_ext/hash'
+require 'addressable/uri'
 
 require 'lazada/api/product'
 require 'lazada/api/category'
-require 'lazada/api/feed'
 require 'lazada/api/image'
 require 'lazada/api/order'
-
-## Development mode only
-OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+require 'lazada/api/response'
 
 module Lazada
   class Client
     include HTTParty
     include Lazada::API::Product
     include Lazada::API::Category
-    include Lazada::API::Feed
     include Lazada::API::Image
     include Lazada::API::Order
 
-    base_uri 'sellercenter-api.lazada.com.my'
-
-    def initialize(api_key, user_id)
+    def initialize(api_key, user_id, country)
       @api_key = api_key
       @user_id = user_id
+      @country = country
+    end
+
+    def select_country(country)
+      case country
+      when 'my' # malaysia
+        self.class.base_uri 'api.sellercenter.lazada.com.my'
+      when 'sg' # singapore
+        self.class.base_uri 'api.sellercenter.lazada.com.sg'
+      when 'th' # thailand
+        self.class.base_uri 'api.sellercenter.lazada.co.th'
+      when 'id' # indonesia
+        self.class.base_uri 'api.sellercenter.lazada.co.id'
+      when 'vn' # vietnam
+        self.class.base_uri 'api.sellercenter.lazada.vn'
+      when 'ph' # phillipines
+        self.class.base_uri 'api.sellercenter.lazada.com.ph'
+      else
+        raise RuntimeError, 'Lazada does not support your country at this moment.'
+      end
     end
 
     protected
 
     def request_url(action, options = {})
-      current_time_zone = 'Kuala Lumpur'
-      timestamp = Time.now.in_time_zone(current_time_zone).iso8601
+      select_country(@country)
+
+      timestamp = Time.now.iso8601
 
       parameters = {
         'Action' => action,
@@ -41,13 +56,16 @@ module Lazada
         'Version' => '1.0'
       }
 
-      parameters = parameters.merge(options) if options.present?
+      parameters['Filter'] = '' if parameters['Filter'].nil?
 
+      parameters = parameters.merge(options) if !options.empty?
       parameters = Hash[parameters.sort{ |a, b| a[0] <=> b[0] }]
-      params     = parameters.to_query
 
-      signature = OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha256'), @api_key, params)
-      url = "/?#{params}&Signature=#{signature}"
+      uri = Addressable::URI.new
+      uri.query_values = parameters
+
+      signature = OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha256'), @api_key, uri.query)
+      url = "/?#{uri.query}&Signature=#{signature}"
     end
 
   end
